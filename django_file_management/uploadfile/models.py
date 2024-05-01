@@ -1,4 +1,5 @@
 from django.db import models
+import os
 
 
 class Employee(models.Model):
@@ -7,8 +8,8 @@ class Employee(models.Model):
     cv_file = models.FileField(upload_to='employee_files/cv/', null=True, blank=True)
     photo_file = models.FileField(upload_to='employee_files/photo/', null=True, blank=True)
 
-def certificate_upload_path(instance,filename):
-    return f'employee_files/certificates/{instance.employee.id}/{filename}'
+def certificate_upload_path(instance, filename):
+    return os.path.join('employee_files', 'certificates', str(instance.employee.id), filename)
 
 class EmployeeCertificate(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
